@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  
+  if Rails.env.development?
+    scope format: true, constraints: { format: /jpg|png|gif|PNG/ } do
+      get '/*anything', to: proc { [404, {}, ['']] }
+    end
+  end
+
   devise_for :users
   resources :tweets do
     resources :comments, only: %i[create edit update destroy]
